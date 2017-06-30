@@ -6,7 +6,6 @@ secrets:
     - /secrets
 
 setup:
-  autoredeploy: true
   command: './setup.sh'
   image: 'turistforeningen/docker-mongo'
   tags:
