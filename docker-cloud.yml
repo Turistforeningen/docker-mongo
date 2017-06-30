@@ -11,6 +11,8 @@ setup:
   image: 'turistforeningen/docker-mongo'
   tags:
     - staging
+  volumes_from:
+    - 'secrets:ro'
 
 mongo-01:
   autoredeploy: true
