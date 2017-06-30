@@ -9,7 +9,6 @@ setup:
   autoredeploy: true
   command: './setup.sh'
   image: 'turistforeningen/docker-mongo'
-  restart: always
   tags:
     - staging
 
