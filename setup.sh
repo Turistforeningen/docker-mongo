@@ -1,4 +1,4 @@
-source /secrets/aws.env
+. /secrets/aws.env
 
 # Clear dump dir
 # rm -rf /dump/*
