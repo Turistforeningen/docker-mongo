@@ -1,0 +1,47 @@
+secrets:
+  image: 'turistforeningen/mongo-secrets:v1'
+  tags:
+    - staging
+  volumes:
+    - /secrets
+
+setup:
+  autoredeploy: true
+  command: './setup.sh'
+  image: 'mongo:3'
+  restart: always
+  tags:
+    - staging
+
+mongo-01:
+  autoredeploy: true
+  command: '--replSet "rs0"'
+  image: 'mongo:3'
+  restart: always
+  tags:
+    - staging
+
+mongo-02:
+  autoredeploy: true
+  command: '--replSet "rs0"'
+  image: 'mongo:3'
+  restart: always
+  tags:
+    - staging
+
+mongo-03:
+  autoredeploy: true
+  command: '--replSet "rs0"'
+  image: 'mongo:3'
+  restart: always
+  tags:
+    - staging
+
+mongo-test:
+  autoredeploy: true
+  image: 'mongo:3'
+  ports:
+    - '27017'
+  restart: always
+  tags:
+    - staging

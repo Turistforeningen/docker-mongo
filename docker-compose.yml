@@ -1,0 +1,96 @@
+version: '2'
+
+services:
+  import:
+    networks:
+      dockerproxy_default:
+    build: .
+    logging:
+      options:
+        max-size: "500k"
+    depends_on:
+      - mongo-01
+      - mongo-02
+      - mongo-03
+    volumes:
+      - .:/app
+      - ./dump:/dump
+      - ./secrets:/secrets
+      - ./data:/data
+    command: ./app/import.sh
+
+  mongo-01:
+    networks:
+      dockerproxy_default:
+    image: mongo:3
+    ports:
+      - "27100:27017"
+      - "28017"
+    expose:
+      - "27017"
+    logging:
+      options:
+        max-size: "500k"
+    volumes:
+      - ./data/db-0:/data/db
+    links:
+      - mongo-02
+      - mongo-03
+    environment:
+      - VIRTUAL_HOST=mongo-01.db.dnt.local
+      - VIRTUAL_PORT=28017
+    extra_hosts:
+      - "mongo-01.db.dnt.local:${DOCKER_IP}"
+      - "mongo-02.db.dnt.local:${DOCKER_IP}"
+      - "mongo-03.db.dnt.local:${DOCKER_IP}"
+    command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
+
+  mongo-02:
+    networks:
+      dockerproxy_default:
+    image: mongo:3
+    ports:
+      - "27200:27017"
+      - "28017"
+    expose:
+      - "27017"
+    logging:
+      options:
+        max-size: "500k"
+    volumes:
+      - ./data/db-1:/data/db
+    environment:
+      - VIRTUAL_HOST=mongo-02.db.dnt.local
+      - VIRTUAL_PORT=28017
+    extra_hosts:
+      - "mongo-01.db.dnt.local:${DOCKER_IP}"
+      - "mongo-02.db.dnt.local:${DOCKER_IP}"
+      - "mongo-03.db.dnt.local:${DOCKER_IP}"
+    command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
+
+  mongo-03:
+    networks:
+      dockerproxy_default:
+    image: mongo:3
+    ports:
+      - "27300:27017"
+      - "28017"
+    expose:
+      - "27017"
+    logging:
+      options:
+        max-size: "500k"
+    volumes:
+      - ./data/db-2:/data/db
+    environment:
+      - VIRTUAL_HOST=mongo-03.db.dnt.local
+      - VIRTUAL_PORT=28017
+    extra_hosts:
+      - "mongo-01.db.dnt.local:${DOCKER_IP}"
+      - "mongo-02.db.dnt.local:${DOCKER_IP}"
+      - "mongo-03.db.dnt.local:${DOCKER_IP}"
+    command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
+
+networks:
+  dockerproxy_default:
+    external: true
