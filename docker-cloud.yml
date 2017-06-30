@@ -8,7 +8,7 @@ secrets:
 setup:
   autoredeploy: true
   command: './setup.sh'
-  image: 'mongo:3'
+  image: 'turistforeningen/docker-mongo'
   restart: always
   tags:
     - staging
