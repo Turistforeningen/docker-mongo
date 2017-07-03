@@ -12,6 +12,10 @@ services:
       - mongo-01
       - mongo-02
       - mongo-03
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_S3_BUCKET_NAME=turistforeningen
+      - AWS_S3_BUCKET_PATH=/backups/mongo/
     volumes:
       - .:/app
       - ./dump:/dump
