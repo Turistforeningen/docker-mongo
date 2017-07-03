@@ -36,9 +36,6 @@ services:
         max-size: "500k"
     volumes:
       - ./data/db-0:/data/db
-    links:
-      - mongo-02
-      - mongo-03
     environment:
       - VIRTUAL_HOST=mongo-01.db.dnt.local
       - VIRTUAL_PORT=28017
