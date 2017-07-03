@@ -1,6 +1,6 @@
 from mongo:3
 
-VOLUME ["/secrets"]
+VOLUME ["/app", "/secrets"]
 
 COPY setup.sh /setup.sh
 RUN chmod +x setup.sh
