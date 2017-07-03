@@ -23,17 +23,17 @@ services:
       - ./data:/data
 
   mongo-01:
-    networks:
-      dockerproxy_default:
     image: mongo:3
-    ports:
-      - "27100:27017"
-      - "28017"
     expose:
       - "27017"
+    networks:
+      dockerproxy_default:
     logging:
       options:
         max-size: "500k"
+    ports:
+      - "27100:27017"
+      - "28017"
     volumes:
       - ./data/db-0:/data/db
     environment:
