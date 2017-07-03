@@ -7,5 +7,3 @@ RUN chmod +x setup.sh
 
 RUN apt-get update && apt-get install -y --no-install-recommends python-pip
 RUN pip install awscli
-
-CMD ["/bin/true"]
