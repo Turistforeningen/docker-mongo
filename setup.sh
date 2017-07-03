@@ -3,7 +3,7 @@
 source /secrets/aws.env
 
 # Clear dump dir
-# rm -rf /dump/*
+rm -rf /dump/*
 
 s3_path="s3://${AWS_S3_BUCKET_NAME}${AWS_S3_BUCKET_PATH}"
 s3_file=$2
