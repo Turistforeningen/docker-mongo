@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  import:
+  setup:
     networks:
       dockerproxy_default:
     build: .
@@ -21,7 +21,6 @@ services:
       - ./dump:/dump
       - ./secrets:/secrets
       - ./data:/data
-    command: ./app/import.sh
 
   mongo-01:
     networks:

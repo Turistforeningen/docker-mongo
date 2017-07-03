@@ -6,7 +6,6 @@ secrets:
     - /secrets
 
 setup:
-  command: './setup.sh'
   environment:
     - AWS_DEFAULT_REGION=eu-west-1
     - AWS_S3_BUCKET_NAME=turistforeningen
