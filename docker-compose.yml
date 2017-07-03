@@ -42,10 +42,6 @@ services:
     environment:
       - VIRTUAL_HOST=mongo-01.db.dnt.local
       - VIRTUAL_PORT=28017
-    extra_hosts:
-      - "mongo-01.db.dnt.local:${DOCKER_IP}"
-      - "mongo-02.db.dnt.local:${DOCKER_IP}"
-      - "mongo-03.db.dnt.local:${DOCKER_IP}"
     command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
 
   mongo-02:
@@ -65,10 +61,6 @@ services:
     environment:
       - VIRTUAL_HOST=mongo-02.db.dnt.local
       - VIRTUAL_PORT=28017
-    extra_hosts:
-      - "mongo-01.db.dnt.local:${DOCKER_IP}"
-      - "mongo-02.db.dnt.local:${DOCKER_IP}"
-      - "mongo-03.db.dnt.local:${DOCKER_IP}"
     command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
 
   mongo-03:
@@ -88,10 +80,6 @@ services:
     environment:
       - VIRTUAL_HOST=mongo-03.db.dnt.local
       - VIRTUAL_PORT=28017
-    extra_hosts:
-      - "mongo-01.db.dnt.local:${DOCKER_IP}"
-      - "mongo-02.db.dnt.local:${DOCKER_IP}"
-      - "mongo-03.db.dnt.local:${DOCKER_IP}"
     command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
 
 networks:
