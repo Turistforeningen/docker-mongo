@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  setup:
+  mongo:
     networks:
       dockerproxy_default:
     build: .
@@ -35,7 +35,7 @@ services:
       - "27100:27017"
       - "28017"
     volumes:
-      - ./data/db-0:/data/db
+      - ./data/db-01:/data/db
     environment:
       - VIRTUAL_HOST=mongo-01.db.dnt.local
       - VIRTUAL_PORT=28017
@@ -54,7 +54,7 @@ services:
       options:
         max-size: "500k"
     volumes:
-      - ./data/db-1:/data/db
+      - ./data/db-02:/data/db
     environment:
       - VIRTUAL_HOST=mongo-02.db.dnt.local
       - VIRTUAL_PORT=28017
@@ -73,11 +73,27 @@ services:
       options:
         max-size: "500k"
     volumes:
-      - ./data/db-2:/data/db
+      - ./data/db-03:/data/db
     environment:
       - VIRTUAL_HOST=mongo-03.db.dnt.local
       - VIRTUAL_PORT=28017
     command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
+
+  nosqlclient:
+    image: mongoclient/mongoclient:latest
+    depends_on:
+      - mongo
+    networks:
+      dockerproxy_default:
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_HOST=nosqlclient.app.dnt.local
+      - VIRTUAL_PORT=3000
+      - MONGO_URL=mongodb://mongo:27017
+    logging:
+      options:
+        max-size: "500k"
 
 networks:
   dockerproxy_default:
