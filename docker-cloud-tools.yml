@@ -1,0 +1,54 @@
+mongo:
+  environment:
+    - AWS_DEFAULT_REGION=eu-west-1
+    - AWS_S3_BUCKET_NAME=turistforeningen
+    - AWS_S3_BUCKET_PATH=/backups/mongo/
+  image: 'turistforeningen/docker-mongo:latest'
+  links:
+    - 'mongo-01.mongo-rs:mongo-01'
+    - 'mongo-02.mongo-rs:mongo-02'
+    - 'mongo-03.mongo-rs:mongo-03'
+  tags:
+    - app
+  volumes_from:
+    - 'secrets:ro'
+mongo-backup-s3:
+  autoredeploy: true
+  environment:
+    - BACKUP_INTERVAL=1
+    - FILE_PREFIX=mongo-backup-
+    - MONGO_DB=verdandi-prod
+    - 'MONGO_HOST=rs0/mongo-01,mongo-02,mongo-03'
+    - S3_BUCKET=turistforeningen
+    - S3_PATH=backups/mongo/
+  image: 'turistforeningen/mongo-backup-s3:latest'
+  links:
+    - 'mongo-01.mongo-rs:mongo-01'
+    - 'mongo-01.mongo-rs:mongo-02'
+    - 'mongo-03.mongo-rs:mongo-03'
+  restart: always
+  tags:
+    - app
+  volumes_from:
+    - 'secrets:ro'
+nosqlclient:
+  environment:
+    - 'MONGO_URL=mongodb://mongo:27017'
+    - 'VIRTUAL_HOST=http://nosqlclient.app.dnt.no*,https://nosqlclient.app.dnt.no*'
+    - VIRTUAL_HOST_WEIGHT=20
+    - VIRTUAL_PORT=3000
+  expose:
+    - '3000'
+  image: 'mongoclient/mongoclient:latest'
+  links:
+    - 'mongo-01.mongo-rs:mongo-01'
+    - 'mongo-02.mongo-rs:mongo-02'
+    - 'mongo-03.mongo-rs:mongo-03'
+  tags:
+    - app
+secrets:
+  image: 'turistforeningen/mongo-secrets:v1'
+  tags:
+    - app
+  volumes:
+    - /secrets
