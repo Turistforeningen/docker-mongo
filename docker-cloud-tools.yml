@@ -24,7 +24,7 @@ mongo-backup-s3:
   image: 'turistforeningen/mongo-backup-s3:latest'
   links:
     - 'mongo-01.mongo-rs:mongo-01'
-    - 'mongo-01.mongo-rs:mongo-02'
+    - 'mongo-02.mongo-rs:mongo-02'
     - 'mongo-03.mongo-rs:mongo-03'
   restart: always
   tags:
