@@ -10,6 +10,7 @@ mongo:
     - 'mongo-03.mongo-rs:mongo-03'
   tags:
     - app
+    - volume-2
   volumes_from:
     - 'secrets:ro'
 mongo-backup-s3:
@@ -29,6 +30,7 @@ mongo-backup-s3:
   restart: always
   tags:
     - app
+    - volume-2
   volumes_from:
     - 'secrets:ro'
 nosqlclient:
@@ -48,11 +50,13 @@ nosqlclient:
     - 'mongo-03.mongo-rs:mongo-03'
   tags:
     - app
+    - volume-2
   volumes_from:
     - 'secrets:ro'
 secrets:
   image: 'turistforeningen/mongo-secrets:v1'
   tags:
     - app
+    - volume-2
   volumes:
     - /secrets
