@@ -32,20 +32,24 @@ mongo-backup-s3:
   volumes_from:
     - 'secrets:ro'
 nosqlclient:
+  command: /app/run.sh
   environment:
     - 'MONGO_URL=mongodb://mongo:27017'
+    - MONGOCLIENT_AUTH=true
     - 'VIRTUAL_HOST=http://nosqlclient.app.dnt.no*,https://nosqlclient.app.dnt.no*'
     - VIRTUAL_HOST_WEIGHT=20
     - VIRTUAL_PORT=3000
   expose:
     - '3000'
-  image: 'mongoclient/mongoclient:latest'
+  image: 'turistforeningen/nosqlclient:latest'
   links:
     - 'mongo-01.mongo-rs:mongo-01'
     - 'mongo-02.mongo-rs:mongo-02'
     - 'mongo-03.mongo-rs:mongo-03'
   tags:
     - app
+  volumes_from:
+    - 'secrets:ro'
 secrets:
   image: 'turistforeningen/mongo-secrets:v1'
   tags:
