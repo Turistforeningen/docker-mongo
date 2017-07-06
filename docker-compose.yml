@@ -80,7 +80,7 @@ services:
     command: --noauth --httpinterface --replSet "rs0" --bind_ip 0.0.0.0
 
   nosqlclient:
-    image: mongoclient/mongoclient:latest
+    image: turistforeningen/nosqlclient:latest
     depends_on:
       - mongo
     networks:
@@ -91,9 +91,13 @@ services:
       - VIRTUAL_HOST=nosqlclient.app.dnt.local
       - VIRTUAL_PORT=3000
       - MONGO_URL=mongodb://mongo:27017
+      # - MONGOCLIENT_AUTH=true
     logging:
       options:
         max-size: "500k"
+    # command: /app/run.sh
+    # volumes:
+    #   - ./secrets:/secrets
 
 networks:
   dockerproxy_default:
