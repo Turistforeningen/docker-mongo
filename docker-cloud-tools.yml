@@ -54,7 +54,7 @@ nosqlclient:
   volumes_from:
     - 'secrets:ro'
 secrets:
-  image: 'turistforeningen/mongo-secrets:v1'
+  image: 'turistforeningen/mongo-secrets:v2'
   tags:
     - app
     - volume-2
