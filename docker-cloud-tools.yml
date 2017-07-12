@@ -3,6 +3,8 @@ mongo:
     - AWS_DEFAULT_REGION=eu-west-1
     - AWS_S3_BUCKET_NAME=turistforeningen
     - AWS_S3_BUCKET_PATH=/backups/mongo/
+    - 'RS_MEMBERS=mongo-01,mongo-02'
+    - 'RS_ARBITERS=mongo-03'
   image: 'turistforeningen/docker-mongo:latest'
   links:
     - 'mongo-01.mongo-rs:mongo-01'
