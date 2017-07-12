@@ -5,9 +5,6 @@ source /secrets/aws.env
 # Clean dump dir
 rm -rf /dump/*
 
-# Clean data dir
-rm -rf /data/*
-
 s3_path="s3://${AWS_S3_BUCKET_NAME}${AWS_S3_BUCKET_PATH}"
 s3_file=$2
 # Default to the latest backup if no argument specified
