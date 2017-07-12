@@ -23,8 +23,8 @@ fi
 
 tar -xvzf /dump/mongo.tar.gz
 
-IFS=',' read -r -a MEMBERS <<< "$RS_MEMBERS"
-IFS=',' read -r -a ARBITERS <<< "$RS_ARBITERS"
+IFS=',' read -r -a MEMBERS <<< "$MONGO_RS_MEMBERS"
+IFS=',' read -r -a ARBITERS <<< "$MONGO_RS_ARBITERS"
 
 mongo --host ${MEMBERS[0]} --eval "rs.initiate({_id: 'rs0', members: [{_id: 0, host: '${MEMBERS[0]}'}]})"
 
