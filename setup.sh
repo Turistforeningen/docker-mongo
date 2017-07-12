@@ -2,8 +2,11 @@
 
 source /secrets/aws.env
 
-# Clear dump dir
+# Clean dump dir
 rm -rf /dump/*
+
+# Clean data dir
+rm -rf /data/*
 
 s3_path="s3://${AWS_S3_BUCKET_NAME}${AWS_S3_BUCKET_PATH}"
 s3_file=$2
@@ -20,9 +23,19 @@ fi
 
 tar -xvzf /dump/mongo.tar.gz
 
-mongo --host mongo-01 --eval "rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'mongo-01'}]})"
+IFS=',' read -r -a MEMBERS <<< "$RS_MEMBERS"
+IFS=',' read -r -a ARBITERS <<< "$RS_ARBITERS"
 
-mongorestore --host mongo-01 --drop
+mongo --host ${MEMBERS[0]} --eval "rs.initiate({_id: 'rs0', members: [{_id: 0, host: '${MEMBERS[0]}'}]})"
 
-mongo --host mongo-01 --eval "rs.add('mongo-02')"
-mongo --host mongo-01 --eval "rs.addArb('mongo-03')"
+mongorestore --host ${MEMBERS[0]} --drop
+
+for MEMBER in "${MEMBERS[@]:1}"
+do
+    mongo --host ${MEMBERS[0]} --eval "rs.add('$MEMBER')"
+done
+
+for ARBITER in "${ARBITERS[@]}"
+do
+    mongo --host ${MEMBERS[0]} --eval "rs.addArb('$ARBITER')"
+done
