@@ -97,6 +97,8 @@ services:
     image: turistforeningen/nosqlclient:latest
     depends_on:
       - mongo
+    links:
+      - mongo
     network_mode: 'bridge'
     ports:
       - "3000"
