@@ -1,21 +1,21 @@
 mongo-01:
   autoredeploy: true
   command: '--replSet "rs0" --bind_ip 0.0.0.0'
-  image: 'mongo:3'
+  image: 'mongo:3.4'
   restart: always
   tags:
     - db
 mongo-02:
   autoredeploy: true
   command: '--replSet "rs0" --bind_ip 0.0.0.0'
-  image: 'mongo:3'
+  image: 'mongo:3.4'
   restart: always
   tags:
     - db
 mongo-03:
   autoredeploy: true
   command: '--replSet "rs0" --bind_ip 0.0.0.0'
-  image: 'mongo:3'
+  image: 'mongo:3.4'
   restart: always
   tags:
     - db
